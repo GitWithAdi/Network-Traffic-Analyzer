@@ -1,0 +1,23 @@
+# Compiled C++ Binaries
+sniffer
+sniffer_http
+dns_server
+*.o
+*.a
+*.so
+a.out
+
+# Node dependencies & logs
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# System & IDE files
+.DS_Store
+*.swp
+*~
+*.pid
+.vscode/
+.idea/
