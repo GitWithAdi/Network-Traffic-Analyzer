@@ -14,7 +14,7 @@ PROTOCOLS = [
     ("TCP", 80, "HTTP GET /index.html"),
     ("TCP", 443, "TLS Client Hello"),
     ("TCP", 22, "SSH Key Exchange"),
-    ("UDP", 53, "DNS Query standard A record"),
+    ("DNS", 53, "DNS Query google.com (A)"),
     ("UDP", 123, "NTP Time Sync"),
     ("ICMP", None, "Echo Request (ping)"),
     ("TCP", 8080, "API Request POST /v1/telemetry"),

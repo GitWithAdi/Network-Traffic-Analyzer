@@ -3,6 +3,8 @@
 echo "=================== NetPulse Status ==================="
 sudo systemctl status packet-streamer.service --no-pager
 echo ""
+sudo systemctl status packet-dns.service --no-pager
+echo ""
 sudo systemctl status packet-sniffer.service --no-pager
 echo ""
 echo "[*] Live Stats:"

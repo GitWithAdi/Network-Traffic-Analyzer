@@ -1,33 +1,31 @@
 #!/usr/bin/env bash
 set -e
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
 echo "===================================================="
 echo " Starting NetPulse Services"
 echo "===================================================="
 
 # Ensure binaries are built
-if [[ ! -f "$SCRIPT_DIR/sniffer" || ! -f "$SCRIPT_DIR/sniffer_http" ]]; then
-    echo "[*] Building C++ sniffer binaries..."
-    make -C "$SCRIPT_DIR"
+if [[ ! -f /home/kali/sniffer || ! -f /home/kali/sniffer_http || ! -f /home/kali/dns_server ]]; then
+    echo "[*] Building C++ sniffer and DNS binaries..."
+    make -C /home/kali
 fi
 
-# Check if systemd services are installed and active
-if systemctl list-unit-files packet-streamer.service &>/dev/null; then
-    echo "[*] Starting packet-streamer via systemd..."
-    sudo systemctl start packet-streamer.service
-    echo "[*] Starting packet-sniffer via systemd..."
-    sudo systemctl start packet-sniffer.service
-else
-    echo "[*] Systemd service not installed. You can run manually:"
-    echo "    Terminal 1: cd $SCRIPT_DIR/packet-streamer && npm start"
-    echo "    Terminal 2: $SCRIPT_DIR/sniffer_http -i any -p 3000"
-fi
+# Start systemd services
+echo "[*] Starting packet-streamer (Node.js backend)..."
+sudo systemctl start packet-streamer.service
+
+echo "[*] Starting packet-dns (C++ UDP DNS server)..."
+sudo systemctl start packet-dns.service
+
+echo "[*] Starting packet-sniffer (libpcap HTTP streamer)..."
+sudo systemctl start packet-sniffer.service
 
 echo ""
 echo "===================================================="
-echo " NetPulse is ready!"
+echo " All services started successfully!"
 echo " Web Dashboard: http://localhost:3000"
 echo " Backend API:   http://localhost:3000/api/packets"
+echo " DNS Endpoint:  http://localhost:3000/api/dns"
+echo " DNS Server:    UDP 0.0.0.0:53"
 echo "===================================================="
