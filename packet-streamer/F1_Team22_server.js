@@ -36,8 +36,8 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve static frontend assets
-app.use(express.static(path.join(__dirname, 'public')));
+// Serve static frontend assets (default to F1_Team22_index.html)
+app.use(express.static(path.join(__dirname, 'public'), { index: 'F1_Team22_index.html' }));
 
 // --- Helper Functions ---
 function normalizePacket(body) {
@@ -275,9 +275,9 @@ app.get('/health', (req, res) => {
   });
 });
 
-// Fallback to index.html
+// Fallback to F1_Team22_index.html
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.sendFile(path.join(__dirname, 'public', 'F1_Team22_index.html'));
 });
 
 // --- Socket.io Events ---

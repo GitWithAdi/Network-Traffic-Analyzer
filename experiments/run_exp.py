@@ -53,7 +53,8 @@ def parse(path):
 def trial(variant, scen, dur, rep, outdir):
     binary = os.path.join(HERE, "sniffer_base" if variant == "baseline" else "sniffer_prop")
     pps = RATES[scen]
-    node = subprocess.Popen(["node", "server.js"], cwd=BACKEND, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    server_file = "F1_Team22_server.js" if os.path.exists(os.path.join(BACKEND, "F1_Team22_server.js")) else "server.js"
+    node = subprocess.Popen(["node", server_file], cwd=BACKEND, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     try:
         if not wait_health(): raise RuntimeError("backend did not start (npm install in packet-streamer first)")
         outf = os.path.join(outdir, f"{variant}_{scen}_{rep}.txt")

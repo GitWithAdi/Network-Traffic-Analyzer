@@ -125,8 +125,6 @@ pip3 install scapy matplotlib
 Run the automated experiment pipeline:
 ```bash
 cd experiments
-sudo ./run_all.sh
-# or using the F1 Team 22 alias:
 sudo ./F1_Team22_run_all.sh
 ```
 

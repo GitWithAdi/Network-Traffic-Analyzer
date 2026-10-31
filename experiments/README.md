@@ -1,13 +1,13 @@
 # NetPulse experiments: baseline vs proposed
 
 Scripts, raw data and results used to evaluate NetPulse against a naive baseline sniffer.
-Put this folder in the repository root, next to `sniffer_http.cpp` and `packet-streamer/`.
+Put this folder in the repository root, next to `F1_Team22_sniffer_http.cpp` and `packet-streamer/`.
 
 | What | Detail |
 |---|---|
 | Question | Does the IPv6 extension-header walk and the self-capture guard make a measurable difference? |
-| Baseline | `sniffer_http.cpp` with the extension-header loop and the BPF / port self-capture guard disabled |
-| Proposed | `sniffer_http.cpp` as in the repository (plus a `pcap_stats` printout at exit) |
+| Baseline | `F1_Team22_sniffer_http.cpp` with the extension-header loop and the BPF / port self-capture guard disabled |
+| Proposed | `F1_Team22_sniffer_http.cpp` as in the repository (plus a `pcap_stats` printout at exit) |
 | Scenarios | S1 50, S2 1,000, S3 10,000 packets/s; 20 s per run; 5 runs per cell |
 | Metrics | M1 extension-header identification accuracy, M2 backend amplification, M3 kernel drop rate, M4 delivery ratio, M5 traffic coverage |
 
@@ -22,7 +22,7 @@ Latest results: [`results/RESULTS.md`](results/RESULTS.md).
 | `run_exp.py` | Runs the trials: backend + sniffer + `tcpreplay` on `lo`, scores the output |
 | `run_aux.py` | Link-layer check on the `any` interface and the non-first IPv6 fragment check |
 | `analyze.py` | Mean and SD, charts, `RESULTS.md` |
-| `run_all.sh` | Runs everything in order (about 15 minutes) |
+| `F1_Team22_run_all.sh` | Runs everything in order (about 15 minutes) |
 | `send_v6_demo.py` | Demo helper: three IPv6 packets with extension headers, for a live baseline-vs-proposed comparison |
 | `results/` | Raw per-run data (`results.jsonl`, `results_raw.csv`), aggregates, charts and `RESULTS.md` |
 
@@ -34,7 +34,7 @@ Needs Linux, root (or `CAP_NET_RAW`), a C++ compiler with libpcap headers, Node.
 sudo apt install g++ libpcap-dev tcpdump tcpreplay nodejs npm python3-pip
 pip install scapy matplotlib
 cd experiments
-sudo ./run_all.sh          # or run the steps by hand, see run_all.sh
+sudo ./F1_Team22_run_all.sh          # runs all steps in sequence
 ```
 
 To use a different backend folder: `BACKEND_DIR=/path/to/packet-streamer python3 run_exp.py ...`.

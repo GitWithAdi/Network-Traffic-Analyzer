@@ -1,13 +1,13 @@
 [Unit]
-Description=NetPulse C++ DNS Forwarding Server
-After=network.target packet-streamer.service
-Wants=packet-streamer.service
+Description=NetPulse C++ DNS Forwarding Server (F1 Team 22)
+After=network.target F1_Team22_packet-streamer.service
+Wants=F1_Team22_packet-streamer.service
 
 [Service]
 Type=simple
 User=kali
 WorkingDirectory=/home/kali
-ExecStart=/home/kali/dns_server -p 53 -u 8.8.8.8 --backend-host 127.0.0.1 --backend-port 3000
+ExecStart=/home/kali/F1_Team22_dns_server -p 53 -u 8.8.8.8 --backend-host 127.0.0.1 --backend-port 3000
 Restart=always
 RestartSec=3
 AmbientCapabilities=CAP_NET_BIND_SERVICE

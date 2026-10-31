@@ -1,13 +1,13 @@
 [Unit]
-Description=NetPulse Packet Sniffer HTTP Streamer
-After=network.target packet-streamer.service
-Wants=packet-streamer.service
+Description=NetPulse Packet Sniffer HTTP Streamer (F1 Team 22)
+After=network.target F1_Team22_packet-streamer.service
+Wants=F1_Team22_packet-streamer.service
 
 [Service]
 Type=simple
 User=kali
 WorkingDirectory=/home/kali
-ExecStart=/home/kali/sniffer_http -i any -p 3000
+ExecStart=/home/kali/F1_Team22_sniffer_http -i any -p 3000
 Restart=always
 RestartSec=3
 AmbientCapabilities=CAP_NET_RAW CAP_NET_ADMIN

@@ -1,12 +1,12 @@
 [Unit]
-Description=NetPulse Packet Streamer Backend
+Description=NetPulse Packet Streamer Backend (F1 Team 22)
 After=network.target
 
 [Service]
 Type=simple
 User=kali
 WorkingDirectory=/home/kali/packet-streamer
-ExecStart=/usr/bin/node /home/kali/packet-streamer/server.js
+ExecStart=/usr/bin/node /home/kali/packet-streamer/F1_Team22_server.js
 Restart=always
 RestartSec=3
 Environment=NODE_ENV=production PORT=3000

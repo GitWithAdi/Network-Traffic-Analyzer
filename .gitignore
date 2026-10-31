@@ -10,6 +10,11 @@ F1_Team22_dns_server
 *.so
 a.out
 
+# Runtime logs & PID files
+.run/
+*.pid
+*.log
+
 # Node dependencies & logs
 node_modules/
 npm-debug.log*
@@ -26,6 +31,5 @@ __pycache__/
 .DS_Store
 *.swp
 *~
-*.pid
 .vscode/
 .idea/

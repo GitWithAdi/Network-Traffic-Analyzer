@@ -76,7 +76,7 @@ A full-stack network packet capture, DNS monitoring, and streaming system built 
 
 To objectively evaluate NetPulse's improvements, we conducted rigorous benchmark experiments comparing our proposed implementation against a naive baseline sniffer under varying traffic loads.
 
-Full documentation and methodology: [`results.md`](results.md) (or [`F1_Team22_results.md`](F1_Team22_results.md)).
+Full documentation and methodology: [`F1_Team22_results.md`](F1_Team22_results.md).
 Experiment code and raw logs: [`experiments/`](experiments/).
 
 ### Key Experimental Findings (30 Benchmark Trials)
@@ -105,7 +105,7 @@ Experiment code and raw logs: [`experiments/`](experiments/).
 
 ```bash
 cd experiments
-sudo ./run_all.sh       # or sudo ./F1_Team22_run_all.sh
+sudo ./F1_Team22_run_all.sh
 ```
 
 ---
@@ -114,26 +114,28 @@ sudo ./run_all.sh       # or sudo ./F1_Team22_run_all.sh
 
 ### 1. Build the C++ Binaries
 ```bash
-make clean && make
+make -f F1_Team22_Makefile clean && make -f F1_Team22_Makefile
 ```
-*Compiles `F1_Team22_sniffer.cpp`, `F1_Team22_sniffer_http.cpp`, and `F1_Team22_dns_server.cpp` into executables (`sniffer`, `sniffer_http`, `dns_server` and their `F1_Team22_*` aliases), and assigns Linux capabilities (`cap_net_raw`, `cap_net_admin`, `cap_net_bind_service`).*
+*Compiles `F1_Team22_sniffer.cpp`, `F1_Team22_sniffer_http.cpp`, and `F1_Team22_dns_server.cpp` into executables (`F1_Team22_sniffer`, `F1_Team22_sniffer_http`, `F1_Team22_dns_server`), and assigns Linux capabilities (`cap_net_raw`, `cap_net_admin`, `cap_net_bind_service`).*
 
-You can also explicitly invoke:
+### 2. Optional: Install Systemd Services
+If running on a Linux system with systemd:
 ```bash
-make -f F1_Team22_Makefile
+sudo ./F1_Team22_install_services.sh
 ```
+*Dynamically configures systemd units for your current user and project path without hardcoded paths.*
 
-### 2. Run All Services (Recommended)
-You can manage the complete stack with the provided service scripts:
+### 3. Run All Services
+You can manage the complete stack with the provided service scripts (works with or without systemd):
 ```bash
 # Start backend, sniffer, and DNS server:
-./F1_Team22_start.sh    # or ./start.sh
+./F1_Team22_start.sh
 
 # Check status and live stats:
-./F1_Team22_status.sh   # or ./status.sh
+./F1_Team22_status.sh
 
 # Stop all services:
-./F1_Team22_stop.sh     # or ./stop.sh
+./F1_Team22_stop.sh
 ```
 *Open http://localhost:3000 in your browser to view the live dashboard.*
 
@@ -152,31 +154,27 @@ npm start
 In another terminal:
 ```bash
 # Stream traffic across all interfaces:
-./sniffer_http -i any -p 3000
-# or:
 ./F1_Team22_sniffer_http -i any -p 3000
 
 # Or listen specifically on eth0:
-./sniffer_http -i eth0 -p 3000
+./F1_Team22_sniffer_http -i eth0 -p 3000
 ```
 
 #### Run the DNS Forwarding Server
 ```bash
-./dns_server -p 53 -u 8.8.8.8 --backend-host 127.0.0.1 --backend-port 3000
-# or:
 ./F1_Team22_dns_server -p 53 -u 8.8.8.8 --backend-host 127.0.0.1 --backend-port 3000
 ```
 
 #### Standalone CLI Packet Sniffing (Without Web Dashboard)
 ```bash
 # Capture on eth0:
-./sniffer -i eth0
+./F1_Team22_sniffer -i eth0
 
 # Capture with BPF filter (e.g. TCP only):
-./sniffer -i eth0 -f "tcp"
+./F1_Team22_sniffer -i eth0 -f "tcp"
 
 # Capture 20 packets with verbose payload hex dump:
-./sniffer -i eth0 -c 20 -v
+./F1_Team22_sniffer -i eth0 -c 20 -v
 ```
 
 ---
@@ -185,19 +183,19 @@ In another terminal:
 
 ```
 Network-Traffic-Analyzer/
+├── docs/                              # Project reports, slide deck, and UI screenshots
+│   ├── F1_Team22_NetPulse_CN_Lab_Presentation.pptx # Project presentation slide deck
+│   ├── F1_Team22_NetPulse_CN_Lab_Project_Report.pdf # Formal academic lab report
+│   └── F1_Team22_DASHBOARD_SCREENSHOTS_captioned.pdf # Captioned UI screenshots
 ├── F1_Team22_sniffer.cpp              # Standalone terminal packet sniffer (libpcap, BPF, hex dump)
 ├── F1_Team22_sniffer_http.cpp         # Real-time packet streamer delivering packets via HTTP POST
 ├── F1_Team22_dns_server.cpp           # UDP DNS forwarder listening on port 53 streaming queries
 ├── F1_Team22_Makefile                 # Primary Makefile with capability configuration
-├── Makefile                           # Default Makefile including F1_Team22_Makefile
-├── F1_Team22_start.sh / start.sh      # Service startup script
-├── F1_Team22_status.sh / status.sh    # Service status inspection script
-├── F1_Team22_stop.sh / stop.sh        # Service termination script
-├── results.md                         # Comprehensive experimental evaluation and methodology
-├── F1_Team22_results.md               # Prefixed evaluation report
-├── F1_Team22_NetPulse_CN_Lab_Presentation.pptx # Project presentation slide deck
-├── F1_Team22_NetPulse_CN_Lab_Project_Report.pdf # Formal academic lab report
-├── F1_Team22_DASHBOARD_SCREENSHOTS_captioned.pdf # Captioned UI screenshots
+├── F1_Team22_install_services.sh      # Portable systemd service installer
+├── F1_Team22_start.sh                 # Unified service startup script (systemd / background process)
+├── F1_Team22_status.sh                # Service status and live telemetry inspection script
+├── F1_Team22_stop.sh                  # Service termination script
+├── F1_Team22_results.md               # Empirical evaluation and methodology report
 ├── experiments/                       # NetPulse empirical evaluation suite
 │   ├── README.md                      # Experiment instructions and reproduction details
 │   ├── gen_pool.py                    # Synthetic packet pool generator (2,000 mixed packets)
@@ -205,7 +203,7 @@ Network-Traffic-Analyzer/
 │   ├── run_exp.py                     # Trial runner with tcpreplay and live scoring
 │   ├── run_aux.py                     # Auxiliary cooked-frame and fragment verification
 │   ├── analyze.py                     # Statistics aggregator and chart generator
-│   ├── run_all.sh / F1_Team22_run_all.sh # Master experiment execution pipeline
+│   ├── F1_Team22_run_all.sh           # Master experiment execution pipeline
 │   ├── send_v6_demo.py                # Live demo helper script
 │   └── results/                       # Generated benchmark results, charts, and raw datasets
 │       ├── RESULTS.md                 # Detailed experiment report
@@ -218,17 +216,13 @@ Network-Traffic-Analyzer/
 │       └── ground_truth_check.json    # tcpdump ground truth verification
 ├── packet-streamer/                   # Node.js Express & Socket.io dashboard backend
 │   ├── F1_Team22_server.js            # Express API backend with Socket.io broadcaster
-│   ├── server.js                      # Backward-compatible server entry point
 │   ├── F1_Team22_simulate_packets.py  # Test packet generator for offline demonstration
-│   ├── simulate_packets.py            # Wrapper for packet simulator
 │   ├── F1_Team22_test_socket.js       # Automated Socket.io integration test script
-│   ├── test_socket.js                 # Wrapper for Socket.io test script
 │   ├── package.json                   # Node.js project manifest
 │   └── public/                        # Frontend dashboard web interface
-│       ├── index.html                 # Real-time responsive HTML/JS web dashboard
-│       └── F1_Team22_index.html       # Prefixed web dashboard template
-└── systemd/                           # Linux systemd service definitions
-    ├── packet-dns.service / F1_Team22_packet-dns.service
-    ├── packet-sniffer.service / F1_Team22_packet-sniffer.service
-    └── packet-streamer.service / F1_Team22_packet-streamer.service
+│       └── F1_Team22_index.html       # Real-time responsive HTML/JS web dashboard
+└── systemd/                           # Linux systemd service unit templates
+    ├── F1_Team22_packet-dns.service
+    ├── F1_Team22_packet-sniffer.service
+    └── F1_Team22_packet-streamer.service
 ```
