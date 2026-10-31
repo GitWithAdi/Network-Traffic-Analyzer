@@ -1,0 +1,13 @@
+{
+ "expected_from_metadata": {
+  "ICMPv6": 311,
+  "TCP": 400,
+  "UDP": 489
+ },
+ "tcpdump_protochain": {
+  "TCP": 400,
+  "UDP": 489,
+  "ICMPv6": 311
+ },
+ "match": true
+}

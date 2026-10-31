@@ -2,10 +2,10 @@
   "name": "packet-streamer",
   "version": "1.0.0",
   "description": "Real-time network packet streaming backend with Express and Socket.io",
-  "main": "server.js",
+  "main": "F1_Team22_server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node --watch server.js"
+    "start": "node F1_Team22_server.js",
+    "dev": "node --watch F1_Team22_server.js"
   },
   "keywords": [
     "packet-sniffer",

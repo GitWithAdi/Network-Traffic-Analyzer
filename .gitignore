@@ -2,6 +2,9 @@
 sniffer
 sniffer_http
 dns_server
+F1_Team22_sniffer
+F1_Team22_sniffer_http
+F1_Team22_dns_server
 *.o
 *.a
 *.so
@@ -13,6 +16,11 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
+
+# Python cache & temporary files
+__pycache__/
+*.pyc
+*.pyo
 
 # System & IDE files
 .DS_Store
